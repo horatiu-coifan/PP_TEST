@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit County{% endblock %}
+
+{% block body %}
+    {{ include('misc/menu.html.twig') }}
+    <h1>Edit County</h1>
+
+    {{ include('county_crud/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_county_crud_index') }}">back to list</a>
+
+    {{ include('county_crud/_delete_form.html.twig') }}
+{% endblock %}

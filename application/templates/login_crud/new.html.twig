@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Login{% endblock %}
+
+{% block body %}
+    {{ include('misc/menu.html.twig') }}
+    <h1>Create new Login</h1>
+
+    {{ include('login_crud/_form.html.twig') }}
+
+    <a href="{{ path('app_login_crud_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,31 @@
+{% block menu %}
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <div class="navbar-user">{{ userName }} ({{ userType }})</div>  
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item dropdown">
+                    <a class="nav-link active" aria-current="page" href="{{ path('dashboard')}}">Home</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Edit
+                    </a>
+                    <ul class="dropdown-menu">
+                    {% for option in options %}
+                        {% if userType == option.rights or userType == 'admin' %}
+                            <li><a class="dropdown-item" href="{{ option.link }}">{{ option.name }}</a></li>
+                        {% endif %}
+                    {% endfor %}
+                    </ul>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link active" aria-current="page" href="{{ path('reports') }}">Reports</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="{{ path('logout') }}">Logout</a>
+                </li>
+            </div>
+        </div>
+    </nav>
+{% endblock %}

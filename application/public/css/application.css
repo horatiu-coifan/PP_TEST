@@ -1,0 +1,64 @@
+
+.card{
+    margin: 100px auto;
+    width: 300px;
+    text-align: center
+}
+h1{
+    margin: 0.5em;
+    border-bottom: 1px Solid navy;
+}
+.menu-title{
+    font-size: 2.0em;
+    color: Navy;
+    padding: 0 1em;
+}
+.nav-item{
+    padding: 0 1em;
+    border-left: 1px Solid Gray;
+}
+.navbar-user{
+    background-color: darkgray;
+    color: yellow;
+    padding: 0 2.0em;
+    font-weight: normal;
+    margin: 0 1.0em;
+}
+.navbar{
+    border-bottom: 1px Solid Silver;
+    margin-bottom: 3.0em;
+}
+form {
+    padding:2.0em;
+}
+
+form > div > div{
+    margin: 0.5em 2.0em;
+}
+form  > div > div > label{
+    margin-right: 2.0em;
+}
+form > div {
+    border: 1px Solid Gray;
+}
+form button.btn{ 
+    margin: 2.0rem;
+    border: 1px Solid Gray;
+    color: black;
+    background-color: powderblue;
+    font-weight: bold;
+    text-align: center;
+    width: auto;
+}
+table {
+    border-collapse: collapse;
+    padding: 2.0em;
+}
+
+.container-repo{
+    padding: 2.0em;
+}
+.container-repo repo{
+    margin-right: 0;
+}
+

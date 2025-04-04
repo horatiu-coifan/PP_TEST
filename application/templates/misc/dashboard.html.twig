@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block body %}
+    {% for message in app.flashes('error-login')  %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {{ include('misc/menu.html.twig') }}
+{% endblock %}

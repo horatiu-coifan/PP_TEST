@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Clients index{% endblock %}
+
+{% block body %}
+    {{ include('misc/menu.html.twig') }}
+    <h1>Clients index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Cui</th>
+                <th>Name</th>
+                <th>Address</th>
+                <th>City</th>
+                <th>Ins_date</th>
+                <th>Ins_uid</th>
+                <th>Mod_date</th>
+                <th>Mod_uid</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for client in clients %}
+            <tr>
+                <td>{{ client.id }}</td>
+                <td>{{ client.cui }}</td>
+                <td>{{ client.name }}</td>
+                <td>{{ client.address }}</td>
+                <td>{{ client.city }}</td>
+                <td>{{ client.insDate ? client.insDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ client.insUid }}</td>
+                <td>{{ client.modDate ? client.modDate|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ client.modUid }}</td>
+                <td>
+                    <a href="{{ path('app_clients_crud_show', {'id': client.id}) }}">show</a>
+                    <a href="{{ path('app_clients_crud_edit', {'id': client.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="10">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_clients_crud_new') }}">Create new</a>
+{% endblock %}
