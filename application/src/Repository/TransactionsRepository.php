@@ -63,8 +63,9 @@ class TransactionsRepository extends ServiceEntityRepository
 
         $resp = $query -> getQuery();
 
-        return $resp -> getResult();
+        return $resp -> getArrayResult();
     }
+
 
     //    /**
     //     * @return Transactions[] Returns an array of Transactions objects

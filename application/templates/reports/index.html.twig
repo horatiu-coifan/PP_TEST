@@ -39,10 +39,10 @@
                     <label for="trans_comp" class="repo">Compared</label>
                     <select class="form-select" name="trans_comp" id="trans_comp">
                         <option selected value=""></option>
-                        <option value="last1">Last month</option>
-                        <option value="last2">Last 2 months</option>
-                        <option value="last3">Last 3 months</option>
-                        <option value="last6">Last 6 months</option>
+                        <option value="1">Last month</option>
+                        <option value="2">Last 2 months</option>
+                        <option value="3">Last 3 months</option>
+                        <option value="6">Last 6 months</option>
                     </select>
                 </div>
                 <div class="col-2 pt-4">
@@ -73,14 +73,20 @@
                     <th>Product</th>
                     <th>Status</th>
                     <th>Number</th>
+                    {%if params.compared %}
+                        <th>Compared {{ params.compared }} month(s) before</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
             {% for report in reports %}
                 <tr>
                     <td>{{ report.name }}</td>
-                    <td>{{ report.status | mapStatusTrans}}</td>
+                    <td>{{ report.status | mapStatusTrans }}</td>
                     <td>{{ report.tsnr }}</td>
+                    {% if params.compared %}
+                        <td>{{ report.compared }}</td>
+                    {% endif %}
                 </tr>
             {% endfor %}
             </tbody>

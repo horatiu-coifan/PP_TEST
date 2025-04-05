@@ -1,4 +1,11 @@
+{% if params.compared == '' %}
 "Product","Status","# Trans"
 {% for report in reports %}
 "{{- report.name -}}","{{- report.status | mapStatusTrans -}}","{{- report.tsnr -}}"
 {% endfor %}
+{% else %}
+"Product","Status","# Trans","Compared"
+{% for report in reports %}
+"{{- report.name -}}","{{- report.status | mapStatusTrans -}}","{{- report.tsnr -}}","{{- report.compared -}}"
+{% endfor %}
+{% endif %}

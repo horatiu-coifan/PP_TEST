@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ProductsRepository;
 use App\Repository\TransactionsRepository;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -27,6 +28,15 @@ final class ReportsController extends AbstractController
             "csv" => $request -> get('trans_csv'),
         ];
         $reports = $transactionsRepository -> getReport($params);
+        $reportsPrev = [];
+        if($params['compared']){
+            $prevDate = (new DateTime()) -> modify("-".$params["compared"]." month");
+            $lastMonth = (new DateTime()) -> modify("-1 month");
+            $params["from_date"] = $prevDate -> format("Y-m-01");
+            $params["to_date"] = $lastMonth -> format("Y-m-t 23:59:59");
+            $reportsPrev = $transactionsRepository -> getReport($params);
+            $reports = $this -> bindReports($reports, $reportsPrev);
+        }
         $products = $productsRepository -> findAllArr();
         $params['type_text'] = $params['type'] == 0 ? 'Pending' : ($params['type'] == 1 ? 'Finished' : '');
         $params['product_text'] = "";
@@ -37,7 +47,7 @@ final class ReportsController extends AbstractController
         }
 
         if($params["csv"]){
-            $response = $this->render('reports/export.csv.twig',array('reports' => $reports));
+            $response = $this->render('reports/export.csv.twig',['reports' => $reports, 'params' => $params]);
             $response->headers->set('Content-Type', 'text/csv');
             $response->headers->set('Content-Disposition', 'attachment; filename="report_export.csv"');
             return $response;
@@ -47,27 +57,20 @@ final class ReportsController extends AbstractController
             'controller_name' => 'ReportsController',
             'products' => $products,
             'reports' => $reports,
+            'reports_prev' => $reportsPrev,
             'params' => $params,
         ], $requestStack -> getSession() -> get("menuOptions")));
     }
+
+    public function bindReports($reportsA, $reportsB) : array{
+        $result = [];
+        foreach ($reportsA as $report){
+            $report["compared"] = array_values(array_filter(
+                array_map(fn($item) => ($item['name'] == $report['name'] && $item['status'] == $report['status']) ? $item['tsnr'] : '', $reportsB)
+            ))[0] ?? 0;
+            $result[] = $report;
+        }
+        return $result;
+    }
 }
 
-
-// class ProductRepository extends ServiceEntityRepository
-// {
-//     public function findAllGreaterThanPrice(int $price): array
-//     {
-//         $conn = $this->getEntityManager()->getConnection();
-
-//         $sql = '
-//             SELECT * FROM product p
-//             WHERE p.price > :price
-//             ORDER BY p.price ASC
-//             ';
-
-//         $resultSet = $conn->executeQuery($sql, ['price' => $price]);
-
-//         // returns an array of arrays (i.e. a raw data set)
-//         return $resultSet->fetchAllAssociative();
-//     }
-// }
