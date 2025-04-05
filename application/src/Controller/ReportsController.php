@@ -17,3 +17,23 @@ final class ReportsController extends AbstractController
         ], $requestStack -> getSession() -> get("menuOptions")));
     }
 }
+
+
+// class ProductRepository extends ServiceEntityRepository
+// {
+//     public function findAllGreaterThanPrice(int $price): array
+//     {
+//         $conn = $this->getEntityManager()->getConnection();
+
+//         $sql = '
+//             SELECT * FROM product p
+//             WHERE p.price > :price
+//             ORDER BY p.price ASC
+//             ';
+
+//         $resultSet = $conn->executeQuery($sql, ['price' => $price]);
+
+//         // returns an array of arrays (i.e. a raw data set)
+//         return $resultSet->fetchAllAssociative();
+//     }
+// }

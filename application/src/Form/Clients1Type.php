@@ -15,26 +15,29 @@ class Clients1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('cui')
-            ->add('name')
-            ->add('address')
-            ->add('city')
-            ->add('ins_date', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('ins_uid')
-            ->add('mod_date', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('mod_uid')
             ->add('credentials', EntityType::class, [
                 'class' => Login::class,
-                'choice_label' => 'id',
+                'choice_label' => 'username',
             ])
+            ->add('name')
+            ->add('cui')
+            
+            ->add('address')
+            ->add('city')
             ->add('county', EntityType::class, [
                 'class' => County::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
+            ->add('ins_date', null, [
+                'widget' => 'single_text',
+                'disabled' => true,
+            ])
+            ->add('mod_date', null, [
+                'widget' => 'single_text',
+                'disabled' => true,
+            ])
+        
+            
         ;
     }
 

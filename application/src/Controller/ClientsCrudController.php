@@ -19,7 +19,7 @@ final class ClientsCrudController extends AbstractController
     public function index(RequestStack $requestStack, ClientsRepository $clientsRepository): Response
     {
         return $this->render('clients_crud/index.html.twig', array_merge([
-            'clients' => $clientsRepository->findAll(),
+            'clients' => $clientsRepository->findAllEx(),
         ], $requestStack -> getSession() -> get("menuOptions")));
     }
 
@@ -31,6 +31,10 @@ final class ClientsCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $client -> setInsDate(new \DateTime());
+            $client -> setInsUid($requestStack -> getSession() -> get("menuOptions")["userName"]);
+            $client -> setModDate(new \DateTime());
+            $client -> setModUid($requestStack -> getSession() -> get("menuOptions")["userName"]);
             $entityManager->persist($client);
             $entityManager->flush();
 
@@ -58,6 +62,8 @@ final class ClientsCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $client -> setModDate(new \DateTime());
+            $client -> setModUid($requestStack -> getSession() -> get("menuOptions")["userName"]);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_clients_crud_index', [], Response::HTTP_SEE_OTHER);

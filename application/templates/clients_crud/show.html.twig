@@ -13,13 +13,14 @@
                 <td>{{ client.id }}</td>
             </tr>
             <tr>
-                <th>Cui</th>
-                <td>{{ client.cui }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
                 <td>{{ client.name }}</td>
             </tr>
+            <tr>
+                <th>Cui</th>
+                <td>{{ client.cui }}</td>
+            </tr>
+            
             <tr>
                 <th>Address</th>
                 <td>{{ client.address }}</td>
@@ -29,20 +30,16 @@
                 <td>{{ client.city }}</td>
             </tr>
             <tr>
+                <th>County</th>
+                <td>{{ client.county.name }}</td>
+            </tr>
+            <tr>
                 <th>Ins_date</th>
                 <td>{{ client.insDate ? client.insDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Ins_uid</th>
-                <td>{{ client.insUid }}</td>
-            </tr>
-            <tr>
                 <th>Mod_date</th>
                 <td>{{ client.modDate ? client.modDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Mod_uid</th>
-                <td>{{ client.modUid }}</td>
             </tr>
         </tbody>
     </table>

@@ -16,6 +16,17 @@ class ClientsRepository extends ServiceEntityRepository
         parent::__construct($registry, Clients::class);
     }
 
+    public function findAllEx(){
+
+        $query = $this -> createQueryBuilder('c')
+            -> innerJoin('c.county', 'cn')
+            -> leftJoin('c.credentials','cr')
+            -> select('c, cn, cr')
+            -> addOrderBy('c.name', 'ASC');
+        $resp = $query -> getQuery();
+        return $resp -> getResult();
+    }
+
     //    /**
     //     * @return Clients[] Returns an array of Clients objects
     //     */

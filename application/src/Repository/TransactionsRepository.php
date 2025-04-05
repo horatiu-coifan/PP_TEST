@@ -18,14 +18,19 @@ class TransactionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Transactions::class);
     }
 
-    public function findByLogin(int $loginId){
+    public function findByLogin(?int $loginId){
 
         $query = $this -> createQueryBuilder('t');
         $query
-            -> innerJoin('t.client', 'c')
-            -> where('c.credentials = :loginId')
-            -> setParameter('loginId', $loginId)
-            -> select('t, c')
+            -> innerJoin('t.client', 'c');
+        if($loginId){
+            $query -> where('c.credentials = :loginId')
+                -> setParameter('loginId', $loginId);
+        }
+        $query
+            -> innerJoin('t.product','p')
+            -> select('t, c, p')
+            -> addOrderBy('c.name', 'ASC')
             -> addOrderBy('t.date', 'ASC');
         $resp = $query -> getQuery();
         return $resp -> getResult();

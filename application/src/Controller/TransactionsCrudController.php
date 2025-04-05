@@ -19,9 +19,8 @@ final class TransactionsCrudController extends AbstractController
     #[Route(name: 'app_transactions_crud_index', methods: ['GET'])]
     public function index(RequestStack $requestStack, TransactionsRepository $transactionsRepository): Response
     {
-        $transactions = $requestStack -> getSession() -> get('userType') != 'admin' ? 
-                        $transactionsRepository->findByLogin($requestStack -> getSession() -> get("loginId")) : 
-                        $transactionsRepository->findAll();
+        $transactions = $transactionsRepository->findByLogin($requestStack -> getSession() -> get('userType') != 'admin' ? 
+                            ($requestStack -> getSession() -> get("loginId")) : null);
         return $this->render('transactions_crud/index.html.twig', array_merge([
             'transactions' => $transactions
         ], $requestStack -> getSession() -> get("menuOptions")));
@@ -35,6 +34,10 @@ final class TransactionsCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transaction -> setInsDate(new \DateTime());
+            $transaction -> setInsUid($requestStack -> getSession() -> get("menuOptions")["userName"]);
+            $transaction -> setModDate(new \DateTime());
+            $transaction -> setModUid($requestStack -> getSession() -> get("menuOptions")["userName"]);
             $entityManager->persist($transaction);
             $entityManager->flush();
 
@@ -62,6 +65,8 @@ final class TransactionsCrudController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transaction -> setModDate(new \DateTime());
+            $transaction -> setModUid($requestStack -> getSession() -> get("menuOptions")["userName"]);
             $entityManager->flush();
 
             return $this->redirectToRoute('app_transactions_crud_index', [], Response::HTTP_SEE_OTHER);

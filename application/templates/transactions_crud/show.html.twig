@@ -13,6 +13,14 @@
                 <td>{{ transaction.id }}</td>
             </tr>
             <tr>
+                <th>Client</th>
+                <td>{{ transaction.client.name }}</td>
+            </tr>
+            <tr>
+                <th>Product</th>
+                <td>{{ transaction.product.name }}</td>
+            </tr>
+            <tr>
                 <th>Amount</th>
                 <td>{{ transaction.amount }}</td>
             </tr>
@@ -21,24 +29,16 @@
                 <td>{{ transaction.date ? transaction.date|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Status</th>
+                <th>Finished</th>
                 <td>{{ transaction.status ? 'Yes' : 'No' }}</td>
             </tr>
-            <tr>
-                <th>Ins_date</th>
+            {<tr>
+                <th>Insert date</th>
                 <td>{{ transaction.insDate ? transaction.insDate|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Ins_uid</th>
-                <td>{{ transaction.insUid }}</td>
-            </tr>
-            <tr>
-                <th>Mod_date</th>
+                <th>Modify date</th>
                 <td>{{ transaction.modDate ? transaction.modDate|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Mod_uid</th>
-                <td>{{ transaction.modUid }}</td>
             </tr>
         </tbody>
     </table>

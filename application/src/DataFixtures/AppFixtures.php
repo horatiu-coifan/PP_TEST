@@ -43,9 +43,9 @@ class AppFixtures extends Fixture
         $client3 = $this -> addClient($manager, '98762345', 'Client 3 SRL', 'Str. Mihai Viteazul Nr. 10', 'Brasov', $brasov);
 
         // Add credentials
-        $this -> addCredentials($manager, $client1, 'user1', 'pass1');
-        $this -> addCredentials($manager, $client2, 'user2', 'pass2');
-        $this -> addCredentials($manager, $client3, 'user3', 'pass3');
+        $this -> addCredentials($manager, $client1, 'user1', 'pass1', 'A', 'admin');
+        $this -> addCredentials($manager, $client2, 'user2', 'pass2', 'A', 'user');
+        $this -> addCredentials($manager, $client3, 'user3', 'pass3', 'A', 'user');
 
         // Add transactions
         $this -> addTransactions($manager, $client1, $prod1, 100);
@@ -63,18 +63,18 @@ class AppFixtures extends Fixture
 
     protected function addCredentials(
             ObjectManager &$manager, 
-            Clients $client, 
             string $username, 
             string $password, 
-            string $status='A'
+            string $status='A',
+            string $type
         ): void{
         try{
             $login = new Login();
             $login
                 -> setUsername($username)
                 -> setStatus($status)
-                -> setPassword(password_hash($password, PASSWORD_DEFAULT))
-                -> setClient($client)
+                -> setPassword(md5($password))
+                -> setType($type)
             ;
             $manager -> persist($login);
             $manager -> flush();

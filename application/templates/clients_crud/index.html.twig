@@ -10,31 +10,31 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Cui</th>
+                <th>Username</th>
                 <th>Name</th>
+                <th>Cui</th>
                 <th>Address</th>
                 <th>City</th>
+                <th>County</th>
                 <th>Ins_date</th>
-                <th>Ins_uid</th>
                 <th>Mod_date</th>
-                <th>Mod_uid</th>
-                <th>actions</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for client in clients %}
             <tr>
                 <td>{{ client.id }}</td>
-                <td>{{ client.cui }}</td>
+                <td>{{ client.credentials.username }}</td>
                 <td>{{ client.name }}</td>
+                <td>{{ client.cui }}</td>
                 <td>{{ client.address }}</td>
                 <td>{{ client.city }}</td>
+                <td>{{ client.county.name }}</td>
                 <td>{{ client.insDate ? client.insDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ client.insUid }}</td>
                 <td>{{ client.modDate ? client.modDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ client.modUid }}</td>
                 <td>
-                    <a href="{{ path('app_clients_crud_show', {'id': client.id}) }}">show</a>
+                    <a href="{{ path('app_clients_crud_show', {'id': client.id}) }}">show</a>&nbsp;|&nbsp;
                     <a href="{{ path('app_clients_crud_edit', {'id': client.id}) }}">edit</a>
                 </td>
             </tr>

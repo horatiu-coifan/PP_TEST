@@ -10,29 +10,29 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Client</th>
+                <th>Product</th>
                 <th>Amount</th>
                 <th>Date</th>
-                <th>Status</th>
-                <th>Ins_date</th>
-                <th>Ins_uid</th>
-                <th>Mod_date</th>
-                <th>Mod_uid</th>
-                <th>actions</th>
+                <th>Finished</th>
+                <th>Insered</th>
+                <th>Modified</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for transaction in transactions %}
             <tr>
                 <td>{{ transaction.id }}</td>
+                <td>{{ transaction.client.name }}</td>
+                <td>{{ transaction.product.name }}</td>
                 <td>{{ transaction.amount }}</td>
                 <td>{{ transaction.date ? transaction.date|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ transaction.status ? 'Yes' : 'No' }}</td>
                 <td>{{ transaction.insDate ? transaction.insDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ transaction.insUid }}</td>
                 <td>{{ transaction.modDate ? transaction.modDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ transaction.modUid }}</td>
                 <td>
-                    <a href="{{ path('app_transactions_crud_show', {'id': transaction.id}) }}">show</a>
+                    <a href="{{ path('app_transactions_crud_show', {'id': transaction.id}) }}">show</a>&nbsp;|&nbsp;
                     <a href="{{ path('app_transactions_crud_edit', {'id': transaction.id}) }}">edit</a>
                 </td>
             </tr>
