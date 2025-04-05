@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Login;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,6 +16,12 @@ class LoginType extends AbstractType
             ->add('username')
             ->add('password')
             ->add('status')
+            ->add('type', ChoiceType::class, [
+                'choices' => [
+                                "user" => "user",
+                                "admin" => "admin",
+                            ]
+            ])
         ;
     }
 

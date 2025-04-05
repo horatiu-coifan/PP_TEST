@@ -27,4 +27,10 @@ class ProductsRepository extends ServiceEntityRepository
         $em -> remove($product);
         if($flush) $em -> flush();
     }
+
+    public function findAllArr() : array{
+        $query = $this -> createQueryBuilder('p');
+        $resp = $query -> getQuery();
+        return $resp -> getArrayResult();
+    }
 }

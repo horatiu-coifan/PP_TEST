@@ -2,7 +2,10 @@
 
 namespace App\Controller;
 
+use App\Repository\ProductsRepository;
+use App\Repository\TransactionsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,10 +13,41 @@ use Symfony\Component\Routing\Attribute\Route;
 final class ReportsController extends AbstractController
 {
     #[Route('/reports', name: 'reports')]
-    public function index(RequestStack $requestStack): Response
+    public function index(RequestStack $requestStack, Request $request, 
+            TransactionsRepository $transactionsRepository, 
+            ProductsRepository $productsRepository
+        ): Response
     {
+        $params = [
+            "from_date" => $request -> get('trans_date_from'),
+            "to_date" => $request -> get('trans_date_to'),
+            "type" => $request -> get('trans_type'),
+            "product" => $request -> get('trans_product'),
+            "compared" => $request -> get('trans_comp'),
+            "csv" => $request -> get('trans_csv'),
+        ];
+        $reports = $transactionsRepository -> getReport($params);
+        $products = $productsRepository -> findAllArr();
+        $params['type_text'] = $params['type'] == 0 ? 'Pending' : ($params['type'] == 1 ? 'Finished' : '');
+        $params['product_text'] = "";
+        if($params['product']){
+            $params['product_text'] = array_values(array_filter(
+                    array_map(fn($item) => $item['id'] == $params['product'] ? $item['name'] : '', $products)
+            ))[0];
+        }
+
+        if($params["csv"]){
+            $response = $this->render('reports/export.csv.twig',array('reports' => $reports));
+            $response->headers->set('Content-Type', 'text/csv');
+            $response->headers->set('Content-Disposition', 'attachment; filename="report_export.csv"');
+            return $response;
+        }
+
         return $this->render('reports/index.html.twig', array_merge([
             'controller_name' => 'ReportsController',
+            'products' => $products,
+            'reports' => $reports,
+            'params' => $params,
         ], $requestStack -> getSession() -> get("menuOptions")));
     }
 }

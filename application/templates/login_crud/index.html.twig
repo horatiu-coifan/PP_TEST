@@ -13,6 +13,7 @@
                 <th>Username</th>
                 <th>Password</th>
                 <th>Status</th>
+                <th>Type</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,8 +24,9 @@
                 <td>{{ login.username }}</td>
                 <td>{{ login.password }}</td>
                 <td>{{ login.status }}</td>
+                <td>{{ login.type }}</td>
                 <td>
-                    <a href="{{ path('app_login_crud_show', {'id': login.id}) }}">show</a>
+                    <a href="{{ path('app_login_crud_show', {'id': login.id}) }}">show</a>&nbsp;|&nbsp;
                     <a href="{{ path('app_login_crud_edit', {'id': login.id}) }}">edit</a>
                 </td>
             </tr>

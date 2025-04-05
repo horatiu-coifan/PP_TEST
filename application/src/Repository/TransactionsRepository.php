@@ -18,7 +18,7 @@ class TransactionsRepository extends ServiceEntityRepository
         parent::__construct($registry, Transactions::class);
     }
 
-    public function findByLogin(?int $loginId){
+    public function findByLogin(?int $loginId): array{
 
         $query = $this -> createQueryBuilder('t');
         $query
@@ -33,6 +33,36 @@ class TransactionsRepository extends ServiceEntityRepository
             -> addOrderBy('c.name', 'ASC')
             -> addOrderBy('t.date', 'ASC');
         $resp = $query -> getQuery();
+        return $resp -> getResult();
+    }
+
+    public function getReport($arrParams) : array{
+        $query = $this -> createQueryBuilder('t');
+        $query
+            -> select('p.name, count(t.status) AS tsnr, t.status')
+            -> join('t.product', 'p');
+        if($arrParams["from_date"]){
+            $query  -> where('t.date >= :from_date')
+                    -> setParameter('from_date', $arrParams["from_date"]);
+        }
+        if($arrParams["to_date"]){
+            $query  -> andWhere('t.date <= :to_date')
+                    -> setParameter('to_date', $arrParams["to_date"]);
+        }
+        if($arrParams["type"]!==""){
+            $query  -> andWhere('t.status = :type')
+                    -> setParameter('type', $arrParams["type"]);
+        }
+        if($arrParams["product"]){
+            $query  -> andWhere('t.product = :product')
+                    -> setParameter('product', $arrParams["product"]);
+        }
+        $query
+                -> groupBy('t.status, t.product');
+                
+
+        $resp = $query -> getQuery();
+
         return $resp -> getResult();
     }
 

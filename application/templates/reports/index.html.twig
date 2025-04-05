@@ -5,7 +5,7 @@
 {% block body %}
     {{ include('misc/menu.html.twig') }}
     <h1>Reports</h1>
-    <form>
+    <form method='POST'>
         <div class='container-repo'>
             <div class="row">
                 <div class="col-4">
@@ -19,8 +19,7 @@
                 <div class="col-4">
                     <label for="trans_type" class="repo">Transaction Type</label>
                     <select class="form-select" name="trans_type" id="trans_type">
-                        <option selected>Select</option>
-                        <option value="*">All</option>
+                        <option selected value=""></option>
                         <option value="0">Pending</option>
                         <option value="1">Finished</option>
                     </select>
@@ -30,17 +29,16 @@
                 <div class="col-4">
                     <label for="trans_product" class="repo">Product</label>
                     <select class="form-select" name="trans_product" id="trans_product">
-                        <option selected>Select</option>
-                        <option value="*">All</option>
-                        {# {% for product in products %}
-                            <option value='product.id'>product.name</option>
-                        {% endfor %} #}
+                        <option selected value=""></option>
+                        {% for product in products %}
+                            <option value='{{ product.id }}'>{{ product.name }}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="col-4">
                     <label for="trans_comp" class="repo">Compared</label>
                     <select class="form-select" name="trans_comp" id="trans_comp">
-                        <option selected>Select</option>
+                        <option selected value=""></option>
                         <option value="last1">Last month</option>
                         <option value="last2">Last 2 months</option>
                         <option value="last3">Last 3 months</option>
@@ -51,7 +49,7 @@
                     <label class="form-check-label" for="trans_csv">
                         Export CSV
                     </label>
-                    <input class="form-check-input" type="checkbox" value="" id="trans_csv">
+                    <input class="form-check-input" type="checkbox" value="1" id="trans_csv" name="trans_csv">
                 </div>
                 <div class="col-2 pt-4 pl-4">
                     <button class='btn-ok' type='submit'>Show/Export</button>
@@ -60,5 +58,33 @@
         </div>
 
     </form>
+    <div class='container'>
+        <h3>Filters</h3>
+        <ul>
+            <li> From date: {{ params.from_date }}</li>
+            <li> To date: {{ params.to_date }}</li>
+            <li> Transaction type: {{ params.type_text }}</li>
+            <li> Product: {{ params.product_text }}</li>
+        </ul>
+        </br>
+        <table class='table'>
+            <thead>
+                <tr>
+                    <th>Product</th>
+                    <th>Status</th>
+                    <th>Number</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for report in reports %}
+                <tr>
+                    <td>{{ report.name }}</td>
+                    <td>{{ report.status | mapStatusTrans}}</td>
+                    <td>{{ report.tsnr }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 {% endblock %}

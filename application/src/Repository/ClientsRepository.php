@@ -16,7 +16,7 @@ class ClientsRepository extends ServiceEntityRepository
         parent::__construct($registry, Clients::class);
     }
 
-    public function findAllEx(){
+    public function findAllEx() : array{
 
         $query = $this -> createQueryBuilder('c')
             -> innerJoin('c.county', 'cn')

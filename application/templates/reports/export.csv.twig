@@ -1,0 +1,4 @@
+"Product","Status","# Trans"
+{% for report in reports %}
+"{{- report.name -}}","{{- report.status | mapStatusTrans -}}","{{- report.tsnr -}}"
+{% endfor %}
